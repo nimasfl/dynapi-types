@@ -15,11 +15,42 @@ export class Credential {
   workstation?: string;
 }
 
-export interface SingleSelectQueryBuilder {}
-export interface MultiSelectQueryBuilder {}
-export interface UpdateQueryBuilder {}
-export interface CreateQueryBuilder {}
-export interface DeleteQueryBuilder {}
+export interface SingleSelectQueryBuilder {
+  send(subPath: string): Promise<Response>;
+}
+
+export interface MultiSelectQueryBuilder {
+  select(...fields: string[]): MultiSelectQueryBuilder;
+
+  top(count: number): MultiSelectQueryBuilder;
+
+  count(count: number): MultiSelectQueryBuilder;
+
+  filter(filterExpression: string): MultiSelectQueryBuilder;
+
+  order(orderExpression: string, isDesc?: boolean): MultiSelectQueryBuilder;
+
+  fetch(fetchXmlExpression: string): MultiSelectQueryBuilder;
+
+  send(subPath: string): Promise<Response>;
+}
+
+export interface UpdateQueryBuilder {
+  set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
+
+  send(subPath: string): Promise<Response>;
+}
+
+export interface CreateQueryBuilder {
+  set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
+
+  send(subPath: string): Promise<Response>;
+}
+
+export interface DeleteQueryBuilder {
+  send(subPath: string): Promise<Response>;
+}
+
 export interface Response {
   status: Boolean,
   statusCode: Number,
@@ -39,23 +70,7 @@ export class QueryBuilder {
 
   get(entitySetName: string, id?: string): SingleSelectQueryBuilder | MultiSelectQueryBuilder;
 
-  execute(actionName: string, method: string, entitySetName: string, id: string): QueryBuilder;
-
-  select(...fields: string[]): MultiSelectQueryBuilder;
-
-  top(count: number): MultiSelectQueryBuilder;
-
-  count(count: number): MultiSelectQueryBuilder;
-
-  filter(filterExpression: string): MultiSelectQueryBuilder;
-
-  order(orderExpression: string, isDesc?: boolean): MultiSelectQueryBuilder;
-
-  fetch(fetchXmlExpression: string): MultiSelectQueryBuilder;
-
-  set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
-
-  send(subPath): Promise<any>;
+  execute(actionName: string, method: string, entitySetName: string, id: string): CreateQueryBuilder;
 }
 
 export function RequestHandler (query: QueryBuilder | MultiSelectQueryBuilder | SingleSelectQueryBuilder | UpdateQueryBuilder | CreateQueryBuilder | DeleteQueryBuilder): Promise<Response>;
