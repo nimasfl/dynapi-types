@@ -16,7 +16,7 @@ export class Credential {
 }
 
 export interface SingleSelectQueryBuilder {
-  send(subPath: string): Promise<Response>;
+  send(subPath?: string): Promise<Response>;
 }
 
 export interface MultiSelectQueryBuilder {
@@ -32,23 +32,23 @@ export interface MultiSelectQueryBuilder {
 
   fetch(fetchXmlExpression: string): MultiSelectQueryBuilder;
 
-  send(subPath: string): Promise<Response>;
+  send(subPath?: string): Promise<Response>;
 }
 
 export interface UpdateQueryBuilder {
   set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
 
-  send(subPath: string): Promise<Response>;
+  send(subPath?: string): Promise<Response>;
 }
 
 export interface CreateQueryBuilder {
   set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
 
-  send(subPath: string): Promise<Response>;
+  send(subPath?: string): Promise<Response>;
 }
 
 export interface DeleteQueryBuilder {
-  send(subPath: string): Promise<Response>;
+  send(subPath?: string): Promise<Response>;
 }
 
 export interface Response {
