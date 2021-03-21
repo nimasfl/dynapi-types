@@ -16,7 +16,7 @@ export class Credential {
 }
 
 export interface SingleSelectQueryBuilder {
-  send(subPath?: string): Promise<Response>;
+  send(subPath?: string): Promise<DynamicsFindOneResponse>;
 }
 
 export interface MultiSelectQueryBuilder {
@@ -32,31 +32,60 @@ export interface MultiSelectQueryBuilder {
 
   fetch(fetchXmlExpression: string): MultiSelectQueryBuilder;
 
-  send(subPath?: string): Promise<Response>;
+  send(subPath?: string): Promise<DynamicsFindMultipleResponse>;
+}
+
+export type DynamicsRecord = {
+  [property: string]: any
 }
 
 export interface UpdateQueryBuilder {
   set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
 
-  send(subPath?: string): Promise<Response>;
+  send(subPath?: string): Promise<DynamicsResponse>;
 }
 
 export interface CreateQueryBuilder {
   set(data: any): UpdateQueryBuilder | CreateQueryBuilder;
 
-  send(subPath?: string): Promise<Response>;
+  send(subPath?: string): Promise<DynamicsResponse>;
 }
 
 export interface DeleteQueryBuilder {
-  send(subPath?: string): Promise<Response>;
+  send(subPath?: string): Promise<DynamicsResponse>;
 }
 
-export interface Response {
+export interface DynamicsFindMultipleResponse {
+  status: Boolean,
+  statusCode: Number,
+  data: DynamicsRecord[],
+  rawMessage: String
+  message: {
+    fa: string,
+    en: string
+  }
+}
+
+export interface DynamicsFindOneResponse {
+  status: Boolean,
+  statusCode: Number,
+  data: DynamicsRecord,
+  rawMessage: String
+  message: {
+    fa: string,
+    en: string
+  }
+}
+
+export interface DynamicsResponse {
   status: Boolean,
   statusCode: Number,
   data: any,
-  headers: Object,
   rawMessage: String
+  message: {
+    fa: string,
+    en: string
+  }
 }
 
 export class QueryBuilder {
