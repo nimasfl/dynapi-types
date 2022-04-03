@@ -100,6 +100,8 @@ export class QueryBuilder {
   get(entitySetName: string, id?: string): SingleSelectQueryBuilder | MultiSelectQueryBuilder;
 
   execute(actionName: string, method: string, entitySetName: string, id: string): CreateQueryBuilder;
+
+  sendRawGetRequest(url: string): Promise<any>
 }
 
 export function RequestHandler (query: QueryBuilder | MultiSelectQueryBuilder | SingleSelectQueryBuilder | UpdateQueryBuilder | CreateQueryBuilder | DeleteQueryBuilder): Promise<Response>;
